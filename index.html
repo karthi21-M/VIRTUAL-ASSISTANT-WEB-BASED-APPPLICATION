@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Virtual Assistant</h1>
+    <div id="response"></div>
+    <input type="text" id="command" placeholder="Enter your command here">
+    <button onclick="sendCommand()">Send</button>
+
+    <script>
+        async function sendCommand() {
+            const command = document.getElementById('command').value;
+            const response = await fetch('/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command })
+            });
+            const result = await response.json();
+            document.getElementById('response').innerText = result.response;
+        }
+    </script>
+</body>
+</html>
